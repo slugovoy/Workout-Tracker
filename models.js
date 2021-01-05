@@ -17,7 +17,10 @@ const WorkoutSchema = new Schema({
         trim: true,
       },
       duration: Number,
-      weight: 100,
+      weight: {
+        type: Number,
+        default: 0,
+      },
       reps: {
         type: Number,
         default: 0,
