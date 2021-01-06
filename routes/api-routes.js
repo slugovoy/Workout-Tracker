@@ -3,16 +3,9 @@ const db = require("../models/");
 module.exports = function (app) {
   app.get("/api/workouts", async (req, res) => {
     try {
-      const data = await db.Workout.find({});
-
       const total = await db.Workout.aggregate([
         {
-          $unwind: "$exercises",
-        },
-
-        {
-          $group: {
-            _id: "$_id",
+          $addFields: {
             totalDuration: {
               $sum: "$exercises.duration",
             },
@@ -20,16 +13,7 @@ module.exports = function (app) {
         },
       ]);
 
-      data[data.length - 1].totalDuration = total[0].totalDuration;
-
-      let easyRef = data[data.length - 1]._id;
-      let totalTD = total[0].totalDuration;
-
-      const updateTD = await db.Workout.findByIdAndUpdate(easyRef, {
-        totalDuration: totalTD,
-      });
-
-      res.json(data);
+      res.json(total);
     } catch (error) {
       res.status(500).end();
     }
@@ -46,7 +30,6 @@ module.exports = function (app) {
 
   app.put("/api/workouts/:id", async ({ params, body }, res) => {
     try {
-      
       const addExercise = await db.Workout.findByIdAndUpdate(
         params.id,
         { $push: { exercises: body } },
@@ -60,8 +43,16 @@ module.exports = function (app) {
 
   app.get("/api/workouts/range", async (req, res) => {
     try {
-      const dataRange = await db.Workout.find({});
-      res.json(dataRange);
+      const total = await db.Workout.aggregate([
+        {
+          $addFields: {
+            totalDuration: {
+              $sum: "$exercises.duration",
+            },
+          },
+        },
+      ]);
+      res.json(total);
     } catch (error) {
       res.status(500).end();
     }
