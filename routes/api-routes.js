@@ -1,8 +1,15 @@
+// Variable for database
 const db = require("../models/");
 
 module.exports = function (app) {
+
+  // Get all documents and send it to front end for extracting last one.
+
+  // Use async/await 
   app.get("/api/workouts", async (req, res) => {
     try {
+      // Use aggregate to dynamically create total duration field and give it value of sum durations of all exercises
+      
       const total = await db.Workout.aggregate([
         {
           $addFields: {
@@ -13,12 +20,15 @@ module.exports = function (app) {
         },
       ]);
 
+      // Send data to front end
       res.json(total);
     } catch (error) {
+      // If error send it back
       res.status(500).end();
     }
   });
 
+  // Create document and send it to front end for displaying it.
   app.post("/api/workouts/", async (req, res) => {
     try {
       const newWorkout = await db.Workout.create({});
@@ -28,6 +38,7 @@ module.exports = function (app) {
     }
   });
 
+  // Update document, add new exercise
   app.put("/api/workouts/:id", async ({ params, body }, res) => {
     try {
       const addExercise = await db.Workout.findByIdAndUpdate(
@@ -41,6 +52,7 @@ module.exports = function (app) {
     }
   });
 
+  // Get all documents to display data in dashboard
   app.get("/api/workouts/range", async (req, res) => {
     try {
       const total = await db.Workout.aggregate([

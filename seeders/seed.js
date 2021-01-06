@@ -1,6 +1,8 @@
+// Packages and variables
 let mongoose = require("mongoose");
 let db = require("../models");
 
+// Connection for Heroku and MongoDB Atlas
 mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -8,6 +10,7 @@ mongoose.connect(process.env.MONGODB_URI || "mongodb://localhost/workout", {
   useFindAndModify: false,
 });
 
+// Seeds for database
 let workoutSeed = [
   {
     day: new Date(new Date().setDate(new Date().getDate() - 10)),
@@ -126,6 +129,7 @@ let workoutSeed = [
   }
 ];
 
+// If database exists - delete and re-seed
 db.Workout.deleteMany({})
   .then(() => db.Workout.collection.insertMany(workoutSeed))
   .then(data => {

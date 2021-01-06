@@ -1,6 +1,8 @@
+// Variables for packages
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
+// Schema for database
 const WorkoutSchema = new Schema({
   day: {
     type: Date,
@@ -36,6 +38,8 @@ const WorkoutSchema = new Schema({
     },
   ],
 });
+
+// Define model and export
 
 const workout = mongoose.model("workout", WorkoutSchema);
 
