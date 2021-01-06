@@ -1,3 +1,4 @@
+// Variables 
 const workoutTypeSelect = document.querySelector("#type");
 const cardioForm = document.querySelector(".cardio-form");
 const resistanceForm = document.querySelector(".resistance-form");
@@ -16,7 +17,7 @@ const newWorkout = document.querySelector(".new-workout")
 
 let workoutType = null;
 let shouldNavigateAway = false;
-
+// Create workout
 async function initExercise() {
   let workout;
 
@@ -29,9 +30,10 @@ async function initExercise() {
   }
 
 }
-
+// Invoke function to create workout
 initExercise();
 
+// Function that handles changing of exercise type
 function handleWorkoutTypeChange(event) {
   workoutType = event.target.value;
 
@@ -48,7 +50,7 @@ function handleWorkoutTypeChange(event) {
 
   validateInputs();
 }
-
+// Validators for user's input
 function validateInputs() {
   let isValid = true;
 
@@ -95,6 +97,7 @@ function validateInputs() {
   }
 }
 
+// Function to handle submit
 async function handleFormSubmit(event) {
   event.preventDefault();
 
@@ -114,18 +117,20 @@ async function handleFormSubmit(event) {
     workoutData.duration = Number(resistanceDurationInput.value.trim());
   }
 
+  
   await API.addExercise(workoutData);
   clearInputs();
   toast.classList.add("success");
 }
 
+// Function to handle chart animation
 function handleToastAnimationEnd() {
   toast.removeAttribute("class");
   if (shouldNavigateAway) {
     location.href = "/";
   }
 }
-
+// Clear user inputs
 function clearInputs() {
   cardioNameInput.value = "";
   nameInput.value = "";
@@ -150,7 +155,7 @@ if (addButton) {
   addButton.addEventListener("click", handleFormSubmit);
 }
 toast.addEventListener("animationend", handleToastAnimationEnd);
-
+// Register event listener
 document
   .querySelectorAll("input")
   .forEach(element => element.addEventListener("input", validateInputs));

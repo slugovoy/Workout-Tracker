@@ -1,4 +1,5 @@
 function generatePalette() {
+  // Array for colors palette
   const arr = [
     '#003f5c',
     '#2f4b7c',
@@ -20,7 +21,7 @@ function generatePalette() {
 
   return arr;
 }
-
+// Take data and populate it in charts
 function populateChart(data) {
   let durations = data.map(({ totalDuration }) => totalDuration);
   let pounds = calculateTotalWeight(data);
@@ -47,6 +48,7 @@ function populateChart(data) {
     return daysOfWeek[date.getDay()];
   });
 
+  // Line chart
   let lineChart = new Chart(line, {
     type: 'line',
     data: {
@@ -87,6 +89,7 @@ function populateChart(data) {
     },
   });
 
+  // Bar chart
   let barChart = new Chart(bar, {
     type: 'bar',
     data: {
@@ -132,6 +135,7 @@ function populateChart(data) {
     },
   });
 
+  // Circle chart
   let pieChart = new Chart(pie, {
     type: 'pie',
     data: {
