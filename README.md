@@ -22,10 +22,10 @@ You don't need to install it, just simply go to this [Link](https://still-savann
 
 * Gif:
 
-![Demo]()
+![Demo](./public/images/GIFforWorkout.gif)
 
 
-* Instructions:
+* Description:
 
 As an user you are able to:
 
