@@ -56,6 +56,8 @@ module.exports = function (app) {
   app.get("/api/workouts/range", async (req, res) => {
     try {
       const total = await db.Workout.aggregate([
+        {$sort: {day: -1}},
+        {$limit: 7},
         {
           $addFields: {
             totalDuration: {
@@ -64,7 +66,7 @@ module.exports = function (app) {
           },
         },
       ]);
-      res.json(total);
+      res.json(total.reverse());
     } catch (error) {
       res.status(500).end();
     }
